@@ -1,0 +1,92 @@
+#load data
+life_expectency_data <- read.csv("/Users/april/Documents/DA with R/FDA_Coursework1/naing.csv")
+
+install.packages("moments")
+library(moments)
+
+summary(life_expectency_data)
+
+#Exploratory Data Analysis (EDA)
+
+#creating a function to calculate moment status ()
+moment_stats<- function(x, column_name){
+  mean_val <- mean(x, na.rm = TRUE)
+  variance_val <- var(x, na.rm = TRUE)
+  skewness_val <- skewness(x, na.rm = TRUE)
+  kurtosis_val <- kurtosis(x, na.rm = TRUE)
+  return(c(
+    cat(column_name, "\n"),
+    Mean = mean_val,
+    Variance = variance_val,
+    Skewness = skewness_val,
+    Kurtosis = kurtosis_val))
+}
+
+#calculating moments statistics
+moment_stats(life_expectency_data$Infant_deaths,"Infant Deaths:")
+moment_stats(life_expectency_data$Under_five_deaths,"Under Five Deaths:")
+moment_stats(life_expectency_data$Adult_mortality,"Adult Mortality:")
+moment_stats(life_expectency_data$Alcohol_consumption,"Alcohol Consumption:")
+moment_stats(life_expectency_data$BMI,"Body Mass Index (BMI):")
+moment_stats(life_expectency_data$Hepatitis_B,"Hepatitis B:")
+moment_stats(life_expectency_data$Measles,"Measles:")
+moment_stats(life_expectency_data$Polio,"Polio:")
+moment_stats(life_expectency_data$Diphtheria,"Diphtheria:")
+moment_stats(life_expectency_data$Incidents_HIV,"Incidents of HIV:")
+moment_stats(life_expectency_data$GDP_per_capita,"GPD Per Capita:")
+moment_stats(life_expectency_data$Population_mln,"Population in Millions:")
+moment_stats(life_expectency_data$Thinness_ten_nineteen_years,"Thinness of Children aged 10-19:")
+moment_stats(life_expectency_data$Thinness_five_nine_years,"Thinness of Children aged 5-9:")
+moment_stats(life_expectency_data$Schooling,"Schooling:")
+moment_stats(life_expectency_data$Life_expectancy,"Life Expectency:")
+
+hist(life_expectency_data$Infant_deaths)
+hist(life_expectency_data$Under_five_deaths, breaks=3)
+hist(life_expectency_data$Adult_mortality, breaks=7)
+hist(life_expectency_data$Alcohol_consumption, breaks=4)
+hist(life_expectency_data$BMI, freq=FALSE)
+hist(life_expectency_data$Hepatitis_B, breaks=8)
+hist(life_expectency_data$Measles, breaks=3)
+hist(life_expectency_data$Polio, breaks=5)
+hist(life_expectency_data$Diphtheria, breaks=5)
+hist(life_expectency_data$Incidents_HIV, breaks=6)
+hist(life_expectency_data$GDP_per_capita, breaks=9)
+hist(life_expectency_data$Population_mln, breaks=8)
+hist(life_expectency_data$Thinness_ten_nineteen_years)
+hist(life_expectency_data$Thinness_ten_nineteen_years)
+hist(life_expectency_data$Schooling, breaks=12)
+hist(life_expectency_data$Life_expectancy, breaks = 10, freq = FALSE)
+
+boxplot(life_expectency_data$Infant_deaths)
+boxplot(life_expectency_data$Under_five_deaths)
+boxplot(life_expectency_data$Adult_mortality)
+boxplot(life_expectency_data$Alcohol_consumption)
+boxplot(life_expectency_data$BMI)
+boxplot(life_expectency_data$Hepatitis_B)
+boxplot(life_expectency_data$Measles)
+boxplot(life_expectency_data$Polio)
+boxplot(life_expectency_data$Diphtheria)
+boxplot(life_expectency_data$Incidents_HIV)
+boxplot(life_expectency_data$GDP_per_capita)
+boxplot(life_expectency_data$Population_mln)
+boxplot(life_expectency_data$Thinness_ten_nineteen_years)
+boxplot(life_expectency_data$Thinness_five_nine_years)
+boxplot(life_expectency_data$Schooling)
+boxplot(life_expectency_data$Life_expectancy)
+
+plot(density(life_expectency_data$Infant_deaths))
+plot(density(life_expectency_data$Under_five_deaths, adjust = 3))
+plot(density(life_expectency_data$Adult_mortality, adjust = 0.7))
+plot(density(life_expectency_data$Alcohol_consumption, adjust = 5))
+plot(density(life_expectency_data$BMI, adjust = 0.05))
+plot(density(life_expectency_data$Hepatitis_B, adjust = 4))
+plot(density(life_expectency_data$Measles, adjust = 10))
+plot(density(life_expectency_data$Polio, adjust = 0.001))
+plot(density(life_expectency_data$Diphtheria, adjust = 2))
+plot(density(life_expectency_data$Incidents_HIV, adjust = 4))
+plot(density(life_expectency_data$GDP_per_capita))
+plot(density(life_expectency_data$Population_mln, adjust = 0.8))
+plot(density(life_expectency_data$Thinness_ten_nineteen_years, adjust = 1))
+plot(density(life_expectency_data$Thinness_five_nine_years, adjust = 0.7))
+plot(density(life_expectency_data$Schooling, adjust = 5))
+plot(density(life_expectency_data$Life_expectancy, adjust = 3))

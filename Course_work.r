@@ -1,5 +1,10 @@
 #load data
 life_expectency_data <- read.csv("/Users/april/Documents/DA with R/FDA_Coursework1/naing.csv")
+View(life_expectency_data)
+str(life_expectency_data)
+ncol(life_expectency_data)
+nrow(life_expectency_data)
+colnames(life_expectency_data)
 
 install.packages("moments")
 library(moments)
@@ -40,6 +45,7 @@ moment_stats(life_expectency_data$Thinness_five_nine_years,"Thinness of Children
 moment_stats(life_expectency_data$Schooling,"Schooling:")
 moment_stats(life_expectency_data$Life_expectancy,"Life Expectency:")
 
+#Examining histograms for the variables in Life Expectency Dataset
 hist(life_expectency_data$Infant_deaths)
 hist(life_expectency_data$Under_five_deaths, breaks=3)
 hist(life_expectency_data$Adult_mortality, breaks=7)
@@ -57,6 +63,7 @@ hist(life_expectency_data$Thinness_ten_nineteen_years)
 hist(life_expectency_data$Schooling, breaks=12)
 hist(life_expectency_data$Life_expectancy, breaks = 10, freq = FALSE)
 
+#Examining Boxplot for the variables in Life Expectency Dataset
 boxplot(life_expectency_data$Infant_deaths)
 boxplot(life_expectency_data$Under_five_deaths)
 boxplot(life_expectency_data$Adult_mortality)
@@ -74,6 +81,7 @@ boxplot(life_expectency_data$Thinness_five_nine_years)
 boxplot(life_expectency_data$Schooling)
 boxplot(life_expectency_data$Life_expectancy)
 
+#Examining Density Plot for the variables in Life Expectency Dataset
 plot(density(life_expectency_data$Infant_deaths))
 plot(density(life_expectency_data$Under_five_deaths, adjust = 3))
 plot(density(life_expectency_data$Adult_mortality, adjust = 0.7))
@@ -90,3 +98,45 @@ plot(density(life_expectency_data$Thinness_ten_nineteen_years, adjust = 1))
 plot(density(life_expectency_data$Thinness_five_nine_years, adjust = 0.7))
 plot(density(life_expectency_data$Schooling, adjust = 5))
 plot(density(life_expectency_data$Life_expectancy, adjust = 3))
+
+#examining the frequencies of different groups of continents
+table(life_expectency_data$Continent)
+length(table(life_expectency_data$Continent))
+
+#examining the frequencies of different regions
+table(life_expectency_data$Region)
+length(table(life_expectency_data$Region))
+
+#install & load DescTools to calculate Mode
+install.packages("DescTools")
+library(DescTools)
+Mode(life_expectency_data$Continent, na.rm = TRUE)
+barplot(table(life_expectency_data$Continent))
+boxplot(Life_expectancy~Continent, life_expectency_data)
+Mode(life_expectency_data$Region, na.rm = TRUE)
+barplot(table(life_expectency_data$Region))
+boxplot(Life_expectancy~Region, life_expectency_data)
+
+# calculate moments for life expectency grouped by Regions
+# dplyr allows us to group data and calculate by groups
+install.packages("dplyr")
+library(dplyr)
+# create a grouped dataset
+life_expectency_byRegion <- group_by(life_expectency_data, Region)
+# use grouped dataset to calculate moments
+summarise(life_expectency_byRegion,
+          mean = mean(Life_expectancy),
+          variance = var(Life_expectancy),
+          skewness = skewness(Life_expectancy),
+          kurtosis = kurtosis(Life_expectancy))
+
+# if we wanted to see individual histograms, we could split the data
+life_expectency_Asia <- life_expectency_data[life_expectency_data$Continent == "Asia",]$Life_expectancy
+life_expectency_Americas <- life_expectency_data[life_expectency_data$Continent == "Americas",]$Life_expectancy
+life_expectency_Oceania<- life_expectency_data[life_expectency_data$Continent == "Oceania",]$Life_expectancy
+hist(life_expectency_Asia)
+hist(life_expectency_Americas)
+hist(life_expectency_Oceania)
+
+anyNA(life_expectency_data) 
+

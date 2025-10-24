@@ -138,5 +138,130 @@ hist(life_expectency_Asia)
 hist(life_expectency_Americas)
 hist(life_expectency_Oceania)
 
+#checking if there is an NA value
 anyNA(life_expectency_data) 
 
+#Question 1: Does the high value of BMI correspond to shorter life expectency?
+#H0: There is no correlation between BMI and life expectancy.
+#H1: There is a correlation between BMI and life expectancy.
+
+#correlation_model <- lm(BMI~Life_expectancy, data=life_expectency_data)
+plot(life_expectency_data$BMI, life_expectency_data$Life_expectancy)
+abline(lm(BMI~Life_expectancy, data=life_expectency_data))
+ggplot(life_expectency_data, aes(x = BMI, y = Life_expectancy)) +
+  geom_jitter(width = 0.1) +
+  geom_smooth(method = "lm") +
+  labs(title = "Average BMI vs Life Expectency", x = "Body Mass Index (BMI)", y = "Average Life Expectency of Population")
+
+
+cor.test(life_expectency_data$BMI, life_expectency_data$Life_expectancy)
+# checking normality of BMI
+# looking at the data visually
+hist(life_expectency_data$BMI)
+plot(density(life_expectency_data$BMI))
+# checking skewness and kurtosis
+skewness(life_expectency_data$BMI)
+kurtosis(life_expectency_data$BMI)
+# running the normality test
+shapiro.test((life_expectency_data$BMI))
+# generating the QQ-plot (you need both lines of code)
+qqnorm(life_expectency_data$BMI)
+qqline(life_expectency_data$BMI)
+# checking normality of BMI
+# looking at the data visually
+hist(life_expectency_data$Life_expectancy)
+plot(density(life_expectency_data$Life_expectancy))
+# checking skewness and kurtosis
+skewness(life_expectency_data$Life_expectancy)
+kurtosis(life_expectency_data$Life_expectancy)
+# running the normality test
+shapiro.test((life_expectency_data$Life_expectancy))
+# generating the QQ-plot (you need both lines of code)
+qqnorm(life_expectency_data$Life_expectancy)
+qqline(life_expectency_data$Life_expectancy)
+cor.test(life_expectency_data$BMI, life_expectency_data$Life_expectancy, method = "spearman")
+
+#Question 2: Do developing countries experience higher deaths of children aged <5 than developed countries?
+#H0: There is no correlation between economy_status_developing and under_five_deaths.
+#H1: There is a correlation between economy_status_developing and under_five_deaths.
+
+install.packages("ggplot2")
+library(ggplot2)
+
+#ggplot(life_expectency_data) +  geom_jitter(aes(Economy_status_Developing, Under_five_deaths))
+ggplot(life_expectency_data, aes(x = Economy_status_Developing, y = Under_five_deaths)) +
+  geom_jitter(width = 0.1) +
+  geom_smooth(method = "lm") +
+  labs(title = "Economy Status (Developing) vs Under-Five Deaths",  x = "Economy Status (1 = Developing, 0 = Developed)",
+       y = "Under-Five Deaths per 1,000 births")
+
+cor.test(life_expectency_data$Economy_status_Developing, life_expectency_data$Under_five_deaths, method = "spearman")
+
+correlation_model <- lm(Economy_status_Developing~Under_five_deaths, data=life_expectency_data)
+plot(life_expectency_data$Economy_status_Developing, life_expectency_data$Under_five_deaths)
+abline(correlation_model)
+
+# checking normality
+# looking at the data visually
+hist(life_expectency_data$Economy_status_Developing)
+hist(life_expectency_data$Under_five_deaths)
+
+plot(density(life_expectency_data$Economy_status_Developing))
+plot(density(life_expectency_data$Under_five_deaths))
+
+# checking skewness and kurtosis
+skewness(life_expectency_data$Economy_status_Developing)
+skewness(life_expectency_data$Under_five_deaths)
+kurtosis(life_expectency_data$Under_five_deaths)
+kurtosis(life_expectency_data$Economy_status_Developing)
+
+# generating the QQ-plot (you need both lines of code)
+qqnorm(life_expectency_data$Economy_status_Developing)
+qqline(life_expectency_data$Economy_status_Developing)
+
+qqnorm(life_expectency_data$Under_five_deaths)
+qqline(life_expectency_data$Under_five_deaths)
+
+# running the normality test
+shapiro.test(life_expectency_data$Economy_status_Developing)
+shapiro.test(life_expectency_data$Under_five_deaths[life_expectency_data$Economy_status_Developing==1])
+shapiro.test(life_expectency_data$Under_five_deaths[life_expectency_data$Economy_status_Developing==0])
+
+
+#Question 3: How does GDP per capita influence life expectancy?
+#H0: There is no correlation between GDP_per_capita and Life_expectancy.
+#H1: There is a correlation between GDP_per_capita and Life_expectancy.
+
+ggplot(life_expectency_data, aes(x = GDP_per_capita, y = Life_expectancy)) +
+  geom_jitter(width = 0.1) +
+  geom_smooth(method = "lm") +
+  labs(title = "GDP VS Life Expectency",  x = "Gross Domestic Product (GDP) per person",
+       y = "Average Life Expectency")
+
+# checking normality
+# looking at the data visually
+hist(life_expectency_data$GDP_per_capita)
+hist(life_expectency_data$Life_expectancy)
+
+plot(density(life_expectency_data$GDP_per_capita))
+plot(density(life_expectency_data$Life_expectancy))
+
+# checking skewness and kurtosis
+skewness(life_expectency_data$GDP_per_capita)
+skewness(life_expectency_data$Life_expectancy)
+kurtosis(life_expectency_data$GDP_per_capita)
+kurtosis(life_expectency_data$Life_expectancy)
+
+# generating the QQ-plot (you need both lines of code)
+qqnorm(life_expectency_data$GDP_per_capita)
+qqline(life_expectency_data$GDP_per_capita)
+
+qqnorm(life_expectency_data$Life_expectancy)
+qqline(life_expectency_data$Life_expectancy)
+
+# running the normality test
+shapiro.test(life_expectency_data$GDP_per_capita)
+shapiro.test(life_expectency_data$GDP_per_capita)
+
+# Using Spearman's correlation since the data is not normal 
+cor.test(life_expectency_data$GDP_per_capita, life_expectency_data$Life_expectancy, method = "spearman", exact = FALSE)
